@@ -13,9 +13,9 @@ import os
 
 df = pd.read_csv('SpotifyTrackDataset.csv',index_col=0)
 
-# How many rows and columns? 
-ncols, nrows = df.shape
-print(f'Dataset has {ncols} rows and {nrows} columns')
+# How many rows and columns?
+nrows, ncols = df.shape
+print(f'Dataset has {nrows} rows and {ncols} columns')
 
 duplicated_rows = df.duplicated().sum()
 
