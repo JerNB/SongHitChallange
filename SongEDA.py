@@ -94,42 +94,43 @@ top_tracks = df['track_name'].value_counts().head(top_n)
 top_genres = df['track_genre'].value_counts().head(top_n)
 
 # Finding the top 10 artists, albums, tracks, and genres
-# # Disable FutureWarning
-# with warnings.catch_warnings():
-#     warnings.simplefilter("ignore", category=FutureWarning)
+# Disable FutureWarning
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore", category=FutureWarning)
 
-#     # Plotting
-#     fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 10))
+    # Plotting
+    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 10))
 
-#     # Top N Artists
-#     sns.barplot(x=top_artists.values, y=top_artists.index, palette="crest", ax=axes[0, 0], orient='h',  zorder=3, width=0.5)
-#     axes[0, 0].set_title(f'Top {top_n} Artists')
-#     axes[0, 0].set_xlabel('Frequency')
-#     axes[0, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+    # Top N Artists
+    sns.barplot(x=top_artists.values, y=top_artists.index, palette="crest", ax=axes[0, 0], orient='h',  zorder=3, width=0.5)
+    axes[0, 0].set_title(f'Top {top_n} Artists')
+    axes[0, 0].set_xlabel('Frequency')
+    axes[0, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-#         # Top N Albums
-#     sns.barplot(x=top_albums.values, y=top_albums.index, palette="crest", ax=axes[0, 1], orient='h', zorder=3, width=0.5)
-#     axes[0, 1].set_title(f'Top {top_n} Albums')
-#     axes[0, 1].set_xlabel('Frequency')
-#     axes[0, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+        # Top N Albums
+    sns.barplot(x=top_albums.values, y=top_albums.index, palette="crest", ax=axes[0, 1], orient='h', zorder=3, width=0.5)
+    axes[0, 1].set_title(f'Top {top_n} Albums')
+    axes[0, 1].set_xlabel('Frequency')
+    axes[0, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-#     # Top N Tracks
-#     sns.barplot(x=top_tracks.values, y=top_tracks.index, palette="crest", ax=axes[1, 0], orient='h', zorder=3, width=0.5)
-#     axes[1, 0].set_title(f'Top {top_n} Tracks')
-#     axes[1, 0].set_xlabel('Frequency')
-#     axes[1, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+    # Top N Tracks
+    sns.barplot(x=top_tracks.values, y=top_tracks.index, palette="crest", ax=axes[1, 0], orient='h', zorder=3, width=0.5)
+    axes[1, 0].set_title(f'Top {top_n} Tracks')
+    axes[1, 0].set_xlabel('Frequency')
+    axes[1, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-#     # Top N Genres
-#     sns.barplot(x=top_genres.values, y=top_genres.index, palette="crest", ax=axes[1, 1], orient='h', zorder=3, width=0.5)
-#     axes[1, 1].set_title(f'Top {top_n} Genres')
-#     axes[1, 1].set_xlabel('Frequency')
-#     axes[1, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+    # Top N Genres
+    sns.barplot(x=top_genres.values, y=top_genres.index, palette="crest", ax=axes[1, 1], orient='h', zorder=3, width=0.5)
+    axes[1, 1].set_title(f'Top {top_n} Genres')
+    axes[1, 1].set_xlabel('Frequency')
+    axes[1, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-#     plt.tight_layout()
-#     plt.show()
+    plt.tight_layout()
+    plt.show()
 
 # plotting the abnormality of numerical columns
 # boxplot for numerical columns
+
 sns.set_style('darkgrid')
 sns.set(rc={"axes.facecolor":"#F2EAC5","figure.facecolor":"#F2EAC5"})
 columns = ['popularity', 'duration_ms', 'tempo', 'loudness', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence']
@@ -140,3 +141,12 @@ for i, col in enumerate(columns):
 plt.tight_layout()
 plt.show()
 
+# heatmap for correlation
+corr = numerical_cols.corr()
+mask = np.zeros_like(corr)
+mask[np.triu_indices_from(mask)] = True
+sns.set_style('white')
+sns.set(rc={"axes.facecolor":"#F2EAC5","figure.facecolor":"#F2EAC5"})
+plt.figure(figsize=(15, 10))
+sns.heatmap(corr, mask=mask, annot=True, vmin=-1, vmax=1,cmap='coolwarm')
+plt.show()
