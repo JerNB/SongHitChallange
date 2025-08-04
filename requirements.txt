@@ -1,3 +1,4 @@
 pandas
 scikit-learn
-imbalanced-learn 
+imbalanced-learn
+xgboost 

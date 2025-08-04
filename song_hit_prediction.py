@@ -8,6 +8,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
+
+# Try to import XGBoost, handle if not available
+try:
+    from xgboost import XGBClassifier
+    XGBOOST_AVAILABLE = True
+except ImportError:
+    print("Warning: XGBoost not available. Install with: pip install xgboost")
+    XGBOOST_AVAILABLE = False
 # Commenting out imblearn imports that are causing issues
 # from imblearn.over_sampling import SMOTE
 # from imblearn.under_sampling import RandomUnderSampler
@@ -27,10 +35,15 @@ def analyze_class_distribution(y, title="Class Distribution"):
     print(f"Imbalance ratio: {counter[0]/counter[1]:.2f}:1")
     return counter
 
-def load_data(path=DATA_PATH, popularity_threshold=75):
-    """Load the Spotify song dataset and create binary label 'hit' based on popularity."""
+def load_data(path=DATA_PATH, hit_percentile=80):
+    """Load the Spotify song dataset and create binary label 'hit' based on popularity percentile."""
     df = pd.read_csv(path)
+    
+    # Calculate the threshold based on percentile (e.g., top 20% = 80th percentile)
+    popularity_threshold = np.percentile(df['track_popularity'], hit_percentile)
     df['hit'] = (df['track_popularity'] >= popularity_threshold).astype(int)
+    
+    print(f"Using {100 - hit_percentile}% of songs as hits (popularity >= {popularity_threshold:.1f})")
     
     # Analyze initial class distribution
     print("="*60)
@@ -109,6 +122,23 @@ def create_models():
         ('clf', MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=300, random_state=42))
     ])
     models['Neural Network'] = mlp_pipe
+
+    # XGBoost with balanced class weights (only if available)
+    if XGBOOST_AVAILABLE:
+        xgb_pipe = Pipeline([
+            ('scaler', StandardScaler()),
+            ('clf', XGBClassifier(
+                n_estimators=200,
+                max_depth=6,
+                learning_rate=0.1,
+                random_state=42,
+                eval_metric='logloss',
+                scale_pos_weight=4  # Handle class imbalance (approximate ratio)
+            ))
+        ])
+        models['XGBoost'] = xgb_pipe
+    else:
+        print("Skipping XGBoost - not available")
 
     return models
 
@@ -200,6 +230,24 @@ def train_models_with_balancing(X_train, y_train):
     ])
     mlp_pipe.fit(X_train, y_train)
     models['Neural Network'] = mlp_pipe
+
+    # XGBoost with balanced class weights (only if available)
+    if XGBOOST_AVAILABLE:
+        xgb_pipe = Pipeline([
+            ('scaler', StandardScaler()),
+            ('clf', XGBClassifier(
+                n_estimators=200,
+                max_depth=6,
+                learning_rate=0.1,
+                random_state=42,
+                eval_metric='logloss',
+                scale_pos_weight=4  # Handle class imbalance (approximate ratio)
+            ))
+        ])
+        xgb_pipe.fit(X_train, y_train)
+        models['XGBoost'] = xgb_pipe
+    else:
+        print("Skipping XGBoost - not available")
 
     return models
 

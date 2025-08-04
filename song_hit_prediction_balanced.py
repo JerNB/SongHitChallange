@@ -24,7 +24,7 @@ def analyze_class_distribution(y, title="Class Distribution"):
     print(f"Imbalance ratio: {counter[0]/counter[1]:.2f}:1")
     return counter
 
-def load_data(path=DATA_PATH, popularity_threshold=75):
+def load_data(path=DATA_PATH, popularity_threshold=80):
     """Load the Spotify song dataset and create binary label 'hit' based on popularity."""
     df = pd.read_csv(path)
     df['hit'] = (df['popularity'] >= popularity_threshold).astype(int)
