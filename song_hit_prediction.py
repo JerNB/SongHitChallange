@@ -11,10 +11,17 @@ from sklearn.neural_network import MLPClassifier
 
 # Try to import XGBoost, handle if not available
 try:
-    from xgboost import XGBClassifier
+    import xgboost as xgb  # type: ignore
+    from xgboost import XGBClassifier  # type: ignore
+    print(f"XGBoost imported successfully! Version: {xgb.__version__}")
     XGBOOST_AVAILABLE = True
-except ImportError:
-    print("Warning: XGBoost not available. Install with: pip install xgboost")
+except ImportError as e:
+    print(f"Warning: XGBoost import failed: {e}")
+    print("Try installing with: pip install xgboost")
+    XGBOOST_AVAILABLE = False
+except Exception as e:
+    print(f"Warning: XGBoost error: {e}")
+    print(f"Error type: {type(e).__name__}")
     XGBOOST_AVAILABLE = False
 # Commenting out imblearn imports that are causing issues
 # from imblearn.over_sampling import SMOTE
@@ -23,7 +30,7 @@ except ImportError:
 from collections import Counter
 
 # Load data
-DATA_PATH = 'song_data.csv'
+DATA_PATH = 'SpotifyTrackDataset.csv'
 
 def analyze_class_distribution(y, title="Class Distribution"):
     """Analyze and print class distribution."""
@@ -37,11 +44,11 @@ def analyze_class_distribution(y, title="Class Distribution"):
 
 def load_data(path=DATA_PATH, hit_percentile=80):
     """Load the Spotify song dataset and create binary label 'hit' based on popularity percentile."""
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, index_col=0)  # Added index_col=0 for SpotifyTrackDataset format
     
     # Calculate the threshold based on percentile (e.g., top 20% = 80th percentile)
-    popularity_threshold = np.percentile(df['track_popularity'], hit_percentile)
-    df['hit'] = (df['track_popularity'] >= popularity_threshold).astype(int)
+    popularity_threshold = np.percentile(df['popularity'], hit_percentile)  # Changed to 'popularity'
+    df['hit'] = (df['popularity'] >= popularity_threshold).astype(int)
     
     print(f"Using {100 - hit_percentile}% of songs as hits (popularity >= {popularity_threshold:.1f})")
     

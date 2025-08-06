@@ -72,15 +72,15 @@ print(f'Rows with missing values dropped. Updated DataFrame shape: {df.shape}')
 print(df.describe(include=['object','bool']))
 
 #Plotting the pie chart for the 'explicit' column
-unique_values, value_counts = np.unique(categorical_cols['explicit'], return_counts=True)
-fig, ax = plt.subplots(figsize=(5, 5))
-# Explode the slice with explicit tracks for emphasis
-explode = [0, 0.1]  # Only "yes" (true) will be slightly exploded
-colors = ['#66b3ff','#99ff99']
-ax.pie(value_counts, labels=unique_values, autopct='%1.2f%%', startangle=90, colors=colors, explode=explode)
-ax.axis('equal')
-ax.set_title('Distribution of Explicit Tracks')
-plt.show()
+# unique_values, value_counts = np.unique(categorical_cols['explicit'], return_counts=True)
+# fig, ax = plt.subplots(figsize=(5, 5))
+# # Explode the slice with explicit tracks for emphasis
+# explode = [0, 0.1]  # Only "yes" (true) will be slightly exploded
+# colors = ['#66b3ff','#99ff99']
+# ax.pie(value_counts, labels=unique_values, autopct='%1.2f%%', startangle=90, colors=colors, explode=explode)
+# ax.axis('equal')
+# ax.set_title('Distribution of Explicit Tracks')
+# plt.show()
 
 
 # Plotting the distribution of top10 categorical columns
@@ -95,51 +95,51 @@ top_genres = df['track_genre'].value_counts().head(top_n)
 
 # Finding the top 10 artists, albums, tracks, and genres
 # Disable FutureWarning
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore", category=FutureWarning)
+# with warnings.catch_warnings():
+#     warnings.simplefilter("ignore", category=FutureWarning)
 
-    # Plotting
-    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 10))
+#     # Plotting
+#     fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 10))
 
-    # Top N Artists
-    sns.barplot(x=top_artists.values, y=top_artists.index, palette="crest", ax=axes[0, 0], orient='h',  zorder=3, width=0.5)
-    axes[0, 0].set_title(f'Top {top_n} Artists')
-    axes[0, 0].set_xlabel('Frequency')
-    axes[0, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+#     # Top N Artists
+#     sns.barplot(x=top_artists.values, y=top_artists.index, palette="crest", ax=axes[0, 0], orient='h',  zorder=3, width=0.5)
+#     axes[0, 0].set_title(f'Top {top_n} Artists')
+#     axes[0, 0].set_xlabel('Frequency')
+#     axes[0, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-        # Top N Albums
-    sns.barplot(x=top_albums.values, y=top_albums.index, palette="crest", ax=axes[0, 1], orient='h', zorder=3, width=0.5)
-    axes[0, 1].set_title(f'Top {top_n} Albums')
-    axes[0, 1].set_xlabel('Frequency')
-    axes[0, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+#         # Top N Albums
+#     sns.barplot(x=top_albums.values, y=top_albums.index, palette="crest", ax=axes[0, 1], orient='h', zorder=3, width=0.5)
+#     axes[0, 1].set_title(f'Top {top_n} Albums')
+#     axes[0, 1].set_xlabel('Frequency')
+#     axes[0, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-    # Top N Tracks
-    sns.barplot(x=top_tracks.values, y=top_tracks.index, palette="crest", ax=axes[1, 0], orient='h', zorder=3, width=0.5)
-    axes[1, 0].set_title(f'Top {top_n} Tracks')
-    axes[1, 0].set_xlabel('Frequency')
-    axes[1, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+#     # Top N Tracks
+#     sns.barplot(x=top_tracks.values, y=top_tracks.index, palette="crest", ax=axes[1, 0], orient='h', zorder=3, width=0.5)
+#     axes[1, 0].set_title(f'Top {top_n} Tracks')
+#     axes[1, 0].set_xlabel('Frequency')
+#     axes[1, 0].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-    # Top N Genres
-    sns.barplot(x=top_genres.values, y=top_genres.index, palette="crest", ax=axes[1, 1], orient='h', zorder=3, width=0.5)
-    axes[1, 1].set_title(f'Top {top_n} Genres')
-    axes[1, 1].set_xlabel('Frequency')
-    axes[1, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
+#     # Top N Genres
+#     sns.barplot(x=top_genres.values, y=top_genres.index, palette="crest", ax=axes[1, 1], orient='h', zorder=3, width=0.5)
+#     axes[1, 1].set_title(f'Top {top_n} Genres')
+#     axes[1, 1].set_xlabel('Frequency')
+#     axes[1, 1].xaxis.grid(linestyle='-', linewidth=0.5, alpha=1, zorder=0)
 
-    plt.tight_layout()
-    plt.show()
+#     plt.tight_layout()
+#     plt.show()
 
 # plotting the abnormality of numerical columns
 # boxplot for numerical columns
 
-sns.set_style('darkgrid')
-sns.set(rc={"axes.facecolor":"#F2EAC5","figure.facecolor":"#F2EAC5"})
-columns = ['popularity', 'duration_ms', 'tempo', 'loudness', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence']
-fig, axes = plt.subplots(nrows=3, ncols=4, figsize=(15, 10))
-for i, col in enumerate(columns):
-    sns.boxplot(y=col, data=numerical_cols, ax=axes[i//4, i%4])
-    axes[i//4, i%4].set_title(col)
-plt.tight_layout()
-plt.show()
+# sns.set_style('darkgrid')
+# sns.set(rc={"axes.facecolor":"#F2EAC5","figure.facecolor":"#F2EAC5"})
+# columns = ['popularity', 'duration_ms', 'tempo', 'loudness', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence']
+# fig, axes = plt.subplots(nrows=3, ncols=4, figsize=(15, 10))
+# for i, col in enumerate(columns):
+#     sns.boxplot(y=col, data=numerical_cols, ax=axes[i//4, i%4])
+#     axes[i//4, i%4].set_title(col)
+# plt.tight_layout()
+# plt.show()
 
 # heatmap for correlation
 corr = numerical_cols.corr()
@@ -180,49 +180,86 @@ print(f"Number of non-hits: {(1-df['is_hit']).sum():,} ({(1-df['is_hit']).mean()
 audio_features = ['energy', 'tempo', 'danceability', 'loudness', 'liveness', 'valence',
                  'speechiness', 'instrumentalness', 'acousticness', 'duration_ms']
 
-fig, axes = plt.subplots(nrows=3, ncols=4, figsize=(20, 15))
-fig.suptitle('Audio Features: Hits vs Non-Hits Distribution', fontsize=16, fontweight='bold')
+# Create a cleaner version with better formatting
+fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(18, 15))
+fig.suptitle('Audio Features: Hits vs Non-Hits Comparison', fontsize=18, fontweight='bold', y=0.98)
 
-for i, feature in enumerate(audio_features):
-    row, col = i // 4, i % 4
+# Use only 9 most important features (remove duration_ms for better layout)
+selected_features = ['energy', 'danceability', 'loudness', 'valence', 'speechiness', 
+                    'instrumentalness', 'acousticness', 'tempo', 'liveness']
+
+for i, feature in enumerate(selected_features):
+    row, col = i // 3, i % 3
     
-    # Box plot comparing hits vs non-hits
-    sns.boxplot(x='is_hit', y=feature, data=df, ax=axes[row, col])
-    axes[row, col].set_title(f'{feature.title()}')
-    axes[row, col].set_xlabel('Hit (1) vs Non-Hit (0)')
+    # Create violin plot for better visualization
+    sns.violinplot(x='is_hit', y=feature, data=df, ax=axes[row, col], 
+                   palette=['lightcoral', 'lightblue'], inner='box')
+    
+    # Improve title formatting
+    axes[row, col].set_title(f'{feature.replace("_", " ").title()}', 
+                            fontsize=14, fontweight='bold', pad=10)
+    axes[row, col].set_xlabel('Non-Hit (0)     vs     Hit (1)', fontsize=12)
+    axes[row, col].set_ylabel(f'{feature.replace("_", " ").title()}', fontsize=12)
     
     # Calculate and display mean difference
     hit_mean = df[df['is_hit']==1][feature].mean()
     non_hit_mean = df[df['is_hit']==0][feature].mean()
     diff_pct = ((hit_mean - non_hit_mean) / non_hit_mean) * 100
     
-    axes[row, col].text(0.5, 0.95, f'Δ: {diff_pct:+.1f}%', 
+    # Better positioned percentage difference
+    color = 'green' if diff_pct > 0 else 'red'
+    axes[row, col].text(0.5, 0.02, f'Δ: {diff_pct:+.1f}%', 
                        transform=axes[row, col].transAxes, 
-                       ha='center', va='top', fontweight='bold',
-                       bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+                       ha='center', va='bottom', fontweight='bold', fontsize=11,
+                       bbox=dict(boxstyle='round,pad=0.3', facecolor=color, alpha=0.2))
+    
+    # Improve grid
+    axes[row, col].grid(True, alpha=0.3)
 
-# Remove empty subplot
-axes[2, 3].remove()
 plt.tight_layout()
+plt.subplots_adjust(top=0.93)
 plt.show()
 
 # 3. Feature Correlation with Popularity
 correlations = df[audio_features + ['popularity']].corr()['popularity'].drop('popularity').sort_values(key=abs, ascending=False)
 
-plt.figure(figsize=(12, 8))
-colors = ['red' if x < 0 else 'green' for x in correlations.values]
-bars = plt.barh(range(len(correlations)), correlations.values, color=colors, alpha=0.7)
-plt.yticks(range(len(correlations)), correlations.index)
-plt.xlabel('Correlation with Popularity')
-plt.title('Audio Features Correlation with Song Popularity', fontsize=14, fontweight='bold')
-plt.axvline(x=0, color='black', linestyle='-', alpha=0.3)
+# Create a more professional correlation chart
+plt.figure(figsize=(14, 10))
+colors = ['#d32f2f' if x < 0 else '#388e3c' for x in correlations.values]
+bars = plt.barh(range(len(correlations)), correlations.values, color=colors, alpha=0.8, height=0.6)
 
-# Add correlation values on bars
+# Improve y-axis labels
+feature_labels = [feature.replace('_', ' ').title() for feature in correlations.index]
+plt.yticks(range(len(correlations)), feature_labels, fontsize=12)
+
+# Improve labels and title
+plt.xlabel('Correlation Coefficient with Popularity', fontsize=14, fontweight='bold')
+plt.title('Audio Features Correlation with Song Popularity', fontsize=16, fontweight='bold', pad=20)
+
+# Add vertical line at zero
+plt.axvline(x=0, color='black', linestyle='-', linewidth=1, alpha=0.5)
+
+# Add correlation values on bars with better formatting
 for i, (bar, val) in enumerate(zip(bars, correlations.values)):
-    plt.text(val + (0.01 if val > 0 else -0.01), i, f'{val:.3f}', 
-             va='center', ha='left' if val > 0 else 'right', fontweight='bold')
+    # Position text better and make it more readable
+    offset = 0.003 if val > 0 else -0.003
+    text_pos = val + offset
+    ha = 'left' if val > 0 else 'right'
+    
+    plt.text(text_pos, i, f'{val:.3f}', 
+             va='center', ha=ha, fontweight='bold', fontsize=11,
+             bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.8))
 
-plt.grid(axis='x', alpha=0.3)
+# Improve grid and layout
+plt.grid(axis='x', alpha=0.4, linestyle='--')
+plt.xlim(-0.1, 0.1)  # Set appropriate x-axis limits
+
+# Add legend
+from matplotlib.patches import Patch
+legend_elements = [Patch(facecolor='#388e3c', alpha=0.8, label='Positive Correlation'),
+                   Patch(facecolor='#d32f2f', alpha=0.8, label='Negative Correlation')]
+plt.legend(handles=legend_elements, loc='lower right', fontsize=12)
+
 plt.tight_layout()
 plt.show()
 
