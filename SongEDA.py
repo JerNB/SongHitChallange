@@ -7,6 +7,10 @@ from sklearn import preprocessing
 from scipy.spatial import distance # use for question 3
 
 import os
+# Ensure all figures and axes use a white background by default
+sns.set_theme(style='whitegrid')
+sns.set(rc={"axes.facecolor":"white","figure.facecolor":"white"})
+plt.rcParams["savefig.facecolor"] = "white"
 #for dirname, _, filenames in os.walk('/kaggle/input'):
     #for filename in filenames:
         #print(os.path.join(dirname, filename))
@@ -47,8 +51,8 @@ quietest = df.loc[max_idx, ['album_name', 'artists', 'popularity']]
 print(quietest)
 
 # 3. Plot the distribution of the 'popularity' column
-sns.set_style('darkgrid')
-sns.set(rc={"axes.facecolor":"#F2EAC5","figure.facecolor":"#F2EAC5"})
+sns.set_style('whitegrid')
+sns.set(rc={"axes.facecolor":"white","figure.facecolor":"white"})
 numerical_cols.hist(figsize=(20,15), bins=30, xlabelsize=8, ylabelsize=8)
 plt.tight_layout()
 plt.show()
@@ -85,8 +89,8 @@ print(df.describe(include=['object','bool']))
 
 # Plotting the distribution of top10 categorical columns
 top_n = 10
-sns.set_style('darkgrid')
-sns.set(rc={"axes.facecolor":"#F2EAC5","figure.facecolor":"#F2EAC5"})
+sns.set_style('whitegrid')
+sns.set(rc={"axes.facecolor":"white","figure.facecolor":"white"})
 # Get the top N most frequent artists, albums, tracks, and genres
 top_artists = df['artists'].value_counts().head(top_n)
 top_albums = df['album_name'].value_counts().head(top_n)
@@ -146,7 +150,7 @@ corr = numerical_cols.corr()
 mask = np.zeros_like(corr)
 mask[np.triu_indices_from(mask)] = True
 sns.set_style('white')
-sns.set(rc={"axes.facecolor":"#F2EAC5","figure.facecolor":"#F2EAC5"})
+sns.set(rc={"axes.facecolor":"white","figure.facecolor":"white"})
 plt.figure(figsize=(15, 10))
 sns.heatmap(corr, mask=mask, annot=True, vmin=-1, vmax=1,cmap='coolwarm')
 plt.show()
