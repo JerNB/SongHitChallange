@@ -572,6 +572,9 @@ def analyze_text(text: str, job_description: Optional[str] = None) -> Dict[str, 
 
 
 def extract_text(file_storage, filename: str) -> str:
+    # Reset file pointer to beginning if supported
+    if hasattr(file_storage, 'seek'):
+        file_storage.seek(0)
     file_bytes = file_storage.read()
     if len(file_bytes) > MAX_FILE_SIZE:
         raise AnalysisError("File exceeds 5 MB limit.")
