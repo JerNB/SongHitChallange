@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Evaluator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <div class="min-h-screen">
+      <header class="bg-white shadow">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+          <h1 class="text-2xl font-semibold">Resume Evaluator</h1>
+          <p class="text-sm text-gray-600">
+            Upload your resume or paste the text, optionally include a job description, and get actionable feedback instantly.
+          </p>
+        </div>
+      </header>
+      <main class="max-w-6xl mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section class="bg-white shadow rounded-lg p-6 space-y-5">
+            <h2 class="text-lg font-semibold">1. Provide your resume</h2>
+            <div
+              id="dropzone"
+              class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-indigo-400 transition"
+            >
+              <p class="text-gray-600">
+                Drag &amp; drop a PDF or DOCX (max 5 MB) or click to select.
+              </p>
+              <p class="text-xs text-gray-500 mt-2">Files are processed in memory and discarded after evaluation.</p>
+              <input id="resume-file" type="file" accept=".pdf,.docx" class="hidden" />
+            </div>
+            <div>
+              <label for="resume-text" class="block font-medium text-sm mb-2">Or paste resume text</label>
+              <textarea
+                id="resume-text"
+                class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-indigo-200"
+                rows="10"
+                placeholder="Paste your resume here..."
+              ></textarea>
+            </div>
+            <div>
+              <label for="job-description" class="block font-medium text-sm mb-2">Optional: Job Description</label>
+              <textarea
+                id="job-description"
+                class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-indigo-200"
+                rows="6"
+                placeholder="Paste a job description to tailor keyword analysis..."
+              ></textarea>
+            </div>
+            <button
+              id="evaluate-btn"
+              class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-md flex items-center justify-center space-x-2"
+            >
+              <span>Evaluate Resume</span>
+              <svg
+                id="spinner"
+                class="animate-spin h-5 w-5 text-white hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+              </svg>
+            </button>
+            <p id="error-message" class="text-sm text-red-600 hidden"></p>
+            <p class="text-xs text-gray-400">
+              Privacy: We do not store your resume. Reports are generated only when you download them.
+            </p>
+          </section>
+
+          <section class="bg-white shadow rounded-lg p-6 flex flex-col space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-semibold">2. Review results</h2>
+              <div class="space-x-2">
+                <button
+                  id="download-json"
+                  class="px-3 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 disabled:opacity-40"
+                  disabled
+                >
+                  Download JSON report
+                </button>
+                <button
+                  id="download-pdf"
+                  class="px-3 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 disabled:opacity-40"
+                  disabled
+                >
+                  Download PDF summary
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="flex space-x-2 text-sm font-medium">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="sections">Sections</button>
+                <button class="tab-btn" data-tab="bullets">Bullets</button>
+                <button class="tab-btn" data-tab="keywords">Keywords</button>
+                <button class="tab-btn" data-tab="report">Report</button>
+              </div>
+              <div id="results" class="mt-4 text-sm text-gray-700">
+                <p class="text-gray-500">Results will appear here after evaluation.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="/static/resume.js"></script>
+  </body>
+</html>
